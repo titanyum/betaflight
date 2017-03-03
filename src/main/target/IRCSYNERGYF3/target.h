@@ -25,6 +25,8 @@
 
 #define EXTI_CALLBACK_HANDLER_COUNT 1 // MPU data ready only, no MAG
 
+#define USE_EXTI
+#define MPU_INT_EXTI            PC13
 #define USE_MPU_DATA_READY_SIGNAL
 #define ENSURE_MPU_DATA_READY_IS_LOW
 
@@ -47,11 +49,11 @@
 #define UART1_TX_PIN            PA9
 #define UART1_RX_PIN            PA10
 
-#define UART2_TX_PIN            PA14
+#define UART2_TX_PIN            PA14 // PA14 / SWCLK
 #define UART2_RX_PIN            PA15
 
-#define UART3_TX_PIN            PB10
-#define UART3_RX_PIN            PB11
+#define UART3_TX_PIN            PB10 // PB10 (AF7)
+#define UART3_RX_PIN            PB11 // PB11 (AF7)
 
 #define USE_I2C
 #define I2C_DEVICE              (I2CDEV_1) // PB6/SCL, PB7/SDA
@@ -62,44 +64,35 @@
 #define MPU6000_CS_PIN           PB12
 #define MPU6000_SPI_INSTANCE     SPI2
 
-#define BOARD_HAS_VOLTAGE_DIVIDER
-#define USE_ADC
-#define ADC_INSTANCE            ADC2
-#define VBAT_ADC_PIN            PA4
-#define CURRENT_METER_ADC_PIN   PA5
-#define RSSI_ADC_PIN            PB2
+//#define BOARD_HAS_VOLTAGE_DIVIDER
+//#define USE_ADC
+//#define ADC_INSTANCE            ADC2
+//#define VBAT_ADC_PIN            PA4
+//#define CURRENT_METER_ADC_PIN   PA5
+//#define RSSI_ADC_PIN            PB2
+
+#define USE_ESC_SENSOR
+#define REMAP_TIM17_DMA
+
+// UART1 TX uses DMA1_Channel4, which is also used by dshot on motor 4
+#if defined(USE_UART1_TX_DMA) && defined(USE_DSHOT)
+#undef USE_UART1_TX_DMA
+#endif
+
+//#define DEFAULT_RX_FEATURE      FEATURE_RX_PPM
+//#define DEFAULT_FEATURES        (FEATURE_TRANSPONDER | FEATURE_BLACKBOX | FEATURE_RSSI_ADC | FEATURE_CURRENT_METER | FEATURE_TELEMETRY)
 
 #define SPEKTRUM_BIND
 // USART3,
 #define BIND_PIN                PB11
 
 #define USE_SERIAL_4WAY_BLHELI_INTERFACE
-/*
-#define USE_SERIAL_4WAY_BLHELI_BOOTLOADER
-#define USE_SERIAL_4WAY_SK_BOOTLOADER
-
-#if !(defined(USE_SERIAL_4WAY_BLHELI_BOOTLOADER) || defined(USE_SERIAL_4WAY_SK_BOOTLOADER))
-#ifdef USE_VCP
-#define USE_SERIAL_1WIRE_VCP
-#else
-#define USE_SERIAL_1WIRE
-#endif
-#endif
-
-#ifdef USE_SERIAL_1WIRE
-#define S1W_TX_GPIO         GPIOA
-#define S1W_TX_PIN          GPIO_Pin_9
-#define S1W_RX_GPIO         GPIOA
-#define S1W_RX_PIN          GPIO_Pin_10
-#endif
-*/
 
 // IO - stm32f303cc in 48pin package
-#define TARGET_IO_PORTA     0xffff
-#define TARGET_IO_PORTB     0xffff
-#define TARGET_IO_PORTC     (BIT(13)|BIT(14)|BIT(15))
-#define TARGET_IO_PORTF     (BIT(0)|BIT(1)|BIT(4))
+#define TARGET_IO_PORTA         0xffff
+#define TARGET_IO_PORTB         0xffff
+#define TARGET_IO_PORTC         (BIT(13)|BIT(14)|BIT(15))
+#define TARGET_IO_PORTF         (BIT(0)|BIT(1)|BIT(3)|BIT(4))
 
 #define USABLE_TIMER_CHANNEL_COUNT 17
-#define USED_TIMERS         (TIM_N(1) | TIM_N(2) | TIM_N(3) | TIM_N(4) | TIM_N(15) | TIM_N(16) |TIM_N(17))
-
+#define USED_TIMERS             ( TIM_N(1) | TIM_N(2) | TIM_N(3) | TIM_N(4) | TIM_N(15) | TIM_N(16) | TIM_N(17) )
