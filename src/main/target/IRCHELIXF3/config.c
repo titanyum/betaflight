@@ -38,7 +38,19 @@
 
 void targetConfiguration(master_t *config)
 {
-	config->batteryConfig.currentMeterScale = 1200;
-	config->batteryConfig.vbatscale = 55;
+	// 5.555 : 1 voltage divider(10k : 2.2k)
+	// 5.555 * 10 for 0.1V * 4 = 222
+	config->batteryConfig.vbatscale = 222;
+	
+	// 2.5 : 1 ratio for scale precision
+	config->batteryConfig.vbatresdivmultiplier = 4;
+	
+	// INA139 parameters:
+	// Vo = Is * Rs * Rl / 1k
+	// Rs=0.0005, Rl=27000
+	// V/A = (0.0005 * 0.001 * 27000)
+	// rescale to 1/10th mV / A -> * 1000 * 10
+	config->batteryConfig.currentMeterScale  = (0.0005 * 27000 * 0.001) * 1000 * 10;
+	config->batteryConfig.currentMeterOffset = 7;
 }
 #endif
