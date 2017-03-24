@@ -130,7 +130,11 @@ static void updateBatteryAlert(void)
 void updateBattery(void)
 {
     uint16_t vBatPrevious = vbatLatest;
-    updateBatteryVoltage();
+	if (batteryConfig->batteryMeterType == BATTERY_SENSOR_EXT)
+		vbatLatest  = vbat;
+	else
+		updateBatteryVoltage();
+	
     uint16_t vBatMeasured = vbatLatest;
 
     /* battery has just been connected*/
@@ -317,6 +321,12 @@ void updateCurrentMeter(int32_t lastUpdateAt, rxConfig_t *rxConfig, uint16_t dea
                 amperageLatest = 0;
 
                 break;
+	        
+			case CURRENT_SENSOR_EXT:
+				updateConsumptionWarning();
+
+				break;
+
         }
     } else {
         amperage = 0;

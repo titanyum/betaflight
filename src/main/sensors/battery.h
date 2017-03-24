@@ -32,12 +32,14 @@ typedef enum {
     CURRENT_SENSOR_ADC,
     CURRENT_SENSOR_VIRTUAL,
     CURRENT_SENSOR_ESC,
-    CURRENT_SENSOR_MAX = CURRENT_SENSOR_ESC
+	CURRENT_SENSOR_EXT,	
+    CURRENT_SENSOR_MAX = CURRENT_SENSOR_EXT
 } currentSensor_e;
 
 typedef enum {
     BATTERY_SENSOR_ADC = 0,
-    BATTERY_SENSOR_ESC
+    BATTERY_SENSOR_ESC,
+	BATTERY_SENSOR_EXT
 } batterySensor_e;
 
 typedef struct batteryConfig_s {
@@ -72,6 +74,7 @@ typedef enum {
 
 extern uint16_t vbatRaw;
 extern uint16_t vbatLatest;
+extern uint16_t vbat;
 extern uint8_t batteryCellCount;
 extern uint16_t batteryWarningVoltage;
 extern int32_t amperageLatest;

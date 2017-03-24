@@ -30,3 +30,5 @@ mcu.mak
 mcu.mak.old
 
 stm32\.mak
+
+*.TMP

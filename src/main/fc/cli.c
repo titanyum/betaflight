@@ -240,11 +240,11 @@ static const char * const lookupTableGPSSBASMode[] = {
 #endif
 
 static const char * const lookupTableCurrentSensor[] = {
-    "NONE", "ADC", "VIRTUAL", "ESC"
+    "NONE", "ADC", "VIRTUAL", "ESC", "EXT"
 };
 
 static const char * const lookupTableBatterySensor[] = {
-    "ADC", "ESC"
+    "ADC", "ESC", "EXT"
 };
 
 #ifdef USE_SERVOS

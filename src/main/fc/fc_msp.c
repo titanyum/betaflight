@@ -1582,6 +1582,12 @@ static mspResult_e mspFcProcessInCommand(uint8_t cmdMSP, sbuf_t *src)
         barometerConfig()->baro_hardware = sbufReadU8(src);
         compassConfig()->mag_hardware = sbufReadU8(src);
         break;
+	    
+    case MSP_SET_ANALOG:
+	    vbat = sbufReadU8(src);
+	    mAhDrawn = sbufReadU16(src);
+	    amperage = sbufReadU16(src);
+	    break;	    
 
     case MSP_RESET_CONF:
         if (!ARMING_FLAG(ARMED)) {
