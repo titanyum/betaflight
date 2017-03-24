@@ -1584,9 +1584,18 @@ static mspResult_e mspFcProcessInCommand(uint8_t cmdMSP, sbuf_t *src)
         break;
 	    
     case MSP_SET_ANALOG:
-	    vbat = sbufReadU8(src);
-	    mAhDrawn = sbufReadU16(src);
-	    amperage = sbufReadU16(src);
+	    if (batteryConfig()->batteryMeterType == BATTERY_SENSOR_EXT){		    
+		    vbat = sbufReadU8(src);
+	    } else {
+		    sbufReadU8(src);
+	    }
+	    if (batteryConfig()->currentMeterType == CURRENT_SENSOR_EXT){		    
+			mAhDrawn = sbufReadU16(src);
+			amperage = sbufReadU16(src);
+		} else {
+			sbufReadU16(src);
+			sbufReadU16(src);
+		}	    
 	    break;	    
 
     case MSP_RESET_CONF:
